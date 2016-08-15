@@ -1,6 +1,6 @@
 application.langs="en"
 application.global=common.SundialGlobal
-aws.region="eu-west-1"
+aws.region=
 
 dao.mode=postgres
 globallock.mode=postgres
@@ -13,7 +13,7 @@ db.default.password=password
 notifications.from="Sundial <sundial@yourdomain.com>"
 notifications.mode=email
 
-companion.tag="069087730660.dkr.ecr.eu-west-1.amazonaws.com/sundial-companion:1471207530"
+companion.tag=
 ecs.cluster=${SUNDIAL_ECS_CLUSTER}
 
 # default CPU and memory allocation for jobs

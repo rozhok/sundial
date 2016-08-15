@@ -13,4 +13,4 @@
   
 # External contributors
 
-  * Włodzimierz Rożkow (https://github.com/rozhok) - Movedin.co
+  * Vladimir Rozhkov (https://github.com/rozhok) – OneDome.com

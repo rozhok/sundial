@@ -2,13 +2,15 @@
 
 cd "$(dirname "$0")"
 
-REGION= # do not change this since ECR is available only in us-east-1
-#Address of your private Docker Registry. (Recommend you use Amazon container registry)
+REGION=
+# Address of your private Docker Registry. (Recommend you use Amazon container registry)
 DOCKER_REGISTRY=
 DOCKER_REPO=sundial-companion
+# AWS CLI profile used to login to ECR. Only needed if you're using EC2 Container Registry and your repo is in another account.
+PROFILE=default
 
 TAG_NAME=$(date +%s)
-$(aws ecr get-login --region $REGION)
+$(aws ecr get-login --profile $PROFILE --region $REGION)
 
 docker build -t $DOCKER_REGISTRY/$DOCKER_REPO:$TAG_NAME . &&
 docker push $DOCKER_REGISTRY/$DOCKER_REPO:$TAG_NAME

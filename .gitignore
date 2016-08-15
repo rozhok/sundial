@@ -17,3 +17,6 @@ server.pid
 *.iml
 *.ipr
 *.iws
+deploy.sh
+companion-container/publish-companion.sh
+conf/application.conf

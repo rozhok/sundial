@@ -410,7 +410,6 @@
       }
     },
 
-
     "ServiceInstanceConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
 
@@ -849,6 +848,7 @@
         }
       }
     },
+
     "S3Bucket": {
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
@@ -875,6 +875,7 @@
 
       }
     },
+
     "SimpleDBDomain": {
       "Type" : "AWS::SDB::Domain",
       "Properties" : {

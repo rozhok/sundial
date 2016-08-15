@@ -4,18 +4,18 @@ There are 3 steps to deplolying Sundial.
 
 The first is deploying the companion container.
 
-The companion container is located within the companion-container/ directory in this project. It is recommended you deploy to Amazon Container Registry (https://aws.amazon.com/ecr/) or a private hosted Docker registry as Sundial currently doesn't support username/password based authentication on registries.
+The companion container is located within the `companion-container/` directory in this project. It is recommended you deploy to Amazon Container Registry (https://aws.amazon.com/ecr/) or a private hosted Docker registry as Sundial currently doesn't support username/password based authentication on registries.
 
-Edit publish-companion-container.sh script and replace variables with details of your own registry. Run the script.
-When the script has finished, it will output the full path to the companion container in your Docker registry. Edit conf/application.conf and replace the companion container path with the path to your version. 
+Copy and edit `publish-companion-container.sh.template` script and replace variables with details of your own registry. Run the script.
+When the script has finished, it will output the full path to the companion container in your Docker registry. Copty and edit `conf/application.conf` and replace the companion container path with the path to your version. 
 
 The second step is creating the Sundial stack. 
-Inside aws/ directory is a file called cfn.json . This is the Cloudformation template to be deployed using Amazon Cloudformation. 
-Go to Amazon AWS Console -> Cloudformation -> Create Stack. Choose "Upload a template to Amazon S3" and point it to this cfn.json file. Fill out the parameters on the next page. You will need to know your VPC id as well as the private Subnet ids for your VPC.
+Inside `aws/` directory is a file called `cfn.json` . This is the Cloudformation template to be deployed using Amazon Cloudformation. 
+Go to Amazon AWS Console -> Cloudformation -> Create Stack. Choose "Upload a template to Amazon S3" and point it to this `cfn.json` file. Fill out the parameters on the next page. You will need to know your VPC id as well as the private Subnet ids for your VPC.
 
 The Cloudformation template will create your RDS metadata instance, your ECS cluster, an S3 bucket for logs and a service instance for the Sundial Web UI.
 
-The last step is to deploy the Sundial service and UI. A deploy.sh script is provided to upload deploy scripts to S3, Dockerized version of service to your Docker registry and triggrer Amazon Codedeploy to pull the image and deploy it to your stack. Make sure you edit deploy.sh and application.conf and give it details of your AWS region, Docker registry etc.
+The last step is to deploy the Sundial service and UI. A `deploy.sh.template` script template is provided to upload deploy scripts to S3, Dockerized version of service to your Docker registry and triggrer Amazon Codedeploy to pull the image and deploy it to your stack. Make sure you have properly edited deploy.sh and application.conf and give it details of your AWS region, Docker registry etc.
 
 # Deployment parameters
 

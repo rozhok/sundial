@@ -1,12 +1,13 @@
 #!/bin/sh
 
 #Change these to match your environment
-REGION=eu-west-1
-DOCKER_REGISTRY=069087730660.dkr.ecr.eu-west-1.amazonaws.com
+REGION=
+DOCKER_REGISTRY=
 DOCKER_REPO=sundial
-# An s3 bucket for deployment assets
-CODEDEPLOY_S3_BUCKET=movedin-dev-codedeploy
-ECR_PROFILE=infra
+# An s3 bucket for deployment assets. This bucket is not created by Sundial CFNs, you have to use you existing bucket.
+CODEDEPLOY_S3_BUCKET=
+# AWS CLI profile used to login to ECR. Only needed to change if you're using EC2 Container Registry and your repo is in another account.
+ECR_PROFILE=default
 
 sbt clean stage
 
@@ -34,10 +35,10 @@ aws deploy push \
                 --s3-location s3://$CODEDEPLOY_S3_BUCKET/$DOCKER_REPO/${BUILD_ID}.zip \
                 --source codedeploy/ \
                 --description "Revision from $DOCKER_REPO build $BUILD_ID ."
-#rm -vf codedeploy/start.sh
-#rm -vf codedeploy/stop.sh
-#rm -vf codedeploy/healthcheck.sh
-
+rm -vf codedeploy/start.sh
+rm -vf codedeploy/stop.sh
+rm -vf codedeploy/healthcheck.sh
+ 
 aws deploy create-deployment \
                 --application-name Sundial \
                 --deployment-group-name SundialProd \
