@@ -59,8 +59,10 @@ class ContainerServiceExecutor() extends SpecificTaskExecutor[ContainerServiceEx
                                                cpu = executable.cpu.getOrElse(defaultCpu),
                                                memory = executable.memory.getOrElse(defaultMemory),
                                                essential = false, // the companion will wait
-                                               environmentVariables = Map("graphite.address" -> "companion", "graphite.port" -> "13290",
-                                                 "sundial.url" -> ("http://" + SundialGlobal.sundialUrl +"/")),
+                                               environmentVariables = executable.environmentVariables ++ Map("graphite.address" -> "companion",
+                                                 "graphite.port" -> "13290",
+                                                 "sundial.url" -> ("http://" + SundialGlobal.sundialUrl +"/")
+                                               ),
                                                links = Seq(ECSContainerLink("sundialCompanion", "companion")),
                                                mountPoints = logPathsAndVolumes.map { case (path, volume) =>
                                                  ECSMountPoint(containerPath = path,
@@ -70,7 +72,7 @@ class ContainerServiceExecutor() extends SpecificTaskExecutor[ContainerServiceEx
                                                     image = companionImage,
                                                     command = Seq.empty,
                                                     cpu = 100,
-                                                    memory = 100,
+                                                    memory = 150,
                                                     essential = true,
                                                     links = Seq.empty,
                                                     mountPoints = hostrunMountPoint +: logPathsAndVolumes.map { case (path, volume) =>
@@ -79,7 +81,8 @@ class ContainerServiceExecutor() extends SpecificTaskExecutor[ContainerServiceEx
                                                     })
     ECSTaskDefinition(family = family,
                       containers = Seq(taskContainer, companionContainer),
-                      volumes = hostrunVolume +: loggingVolumes)
+                      volumes = hostrunVolume +: loggingVolumes,
+                      taskRoleArn = executable.taskRoleArn)
   }
 
   private def buildCloudWatchConfig(family: String, executable: ContainerServiceExecutable, task: Task): String = {
